@@ -20,7 +20,7 @@ handler: func(a: Int) {
     //    WriteCoreDump("bt.core") // We have to save the app's state asap || Change naming
     
     Terminal setFgColor(Color red) // Fancy output
-    "Segfault caught. " print()
+    "A serious and unrecoverable error (=Segmentation fault) occured. " print()
     if (doDump)
         "Core dump written." println() // Pt. 2 so the message makes sense
     
@@ -47,10 +47,9 @@ handler: func(a: Int) {
             Terminal setFgColor(Color green)
             "To generate a core dump, type 'generate-core-file' in the gdb-prompt" println()
             Terminal reset()
-            Time sleepMilli(1500)
-            Process new(["gdb", "--pid=%d" format( getpid() )]) execute()
+            Process new(["gdb", "--pid=%d" format( getpid() ), "-q"]) execute()
         }
-        case 'n' => "Shutting down. Good luck, young fellow!" println(); exit(0)
+        case 'n' => "Never mind, shutting down." println(); exit(0)
         case     => exit(0)
     }    
 }
